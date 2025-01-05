@@ -27,10 +27,11 @@ try {
 
     require_once __DIR__ . '/../../core/class/jMQTT.class.php';
     ajax::init(array('fileupload'));
+    $action = init('action');
 
     ###################################################################################################################
     # File upload
-    if (init('action') == 'fileupload') {
+    if ($action == 'fileupload') {
         if (!isset($_FILES['file'])) {
             throw new Exception(__('Aucun fichier trouvé. Vérifiez le paramètre PHP (post size limit)', __FILE__));
         }
@@ -50,7 +51,7 @@ try {
         }
         $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
         if ($extension != $allowed_ext)
-            throw new Exception(sprintf(__("L'extension de fichier '%s' n'est pas autorisée", __FILE__), $extension));
+            throw new Exception(sprintf(__("L'extension de fichier '%s' n'est pas autorisée", __FILE__), secureXSS($extension)));
         if (!file_exists($uploaddir)) {
             mkdir($uploaddir);
         }
@@ -61,7 +62,7 @@ try {
         if (file_exists($uploaddir . '/' . $fname)) {
             throw new Exception(__('Impossible de téléverser le fichier car il existe déjà. Par sécurité, il faut supprimer le fichier existant avant de le remplacer.', __FILE__));
         }
-        if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . '/' . $fname)) {
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . '/' . secureXSS($fname))) {
             throw new Exception(__('Impossible de déplacer le fichier temporaire', __FILE__));
         }
         if (!file_exists($uploaddir . '/' . $fname)) {
@@ -88,7 +89,7 @@ try {
 
     ###################################################################################################################
     # Add a new command on an existing jMQTT equipment
-    if (init('action') == 'newCmd') {
+    if ($action == 'newCmd') {
         /** @var jMQTT $eqpt */
         $eqpt = jMQTT::byId(init('id'));
         if (!is_object($eqpt) || $eqpt->getEqType_name() != jMQTT::class) {
@@ -101,7 +102,7 @@ try {
 
     ###################################################################################################################
     # Test jsonPath
-    if (init('action') == 'testJsonPath') {
+    if ($action == 'testJsonPath') {
         $payload = init('payload');
         if ($payload == '') {
             ajax::success(array('success' => false, 'message' => __('Pas de payload', __FILE__), 'value' => ''));
@@ -171,21 +172,21 @@ try {
 
     ###################################################################################################################
     # Template
-    if (init('action') == 'getTemplateList') {
+    if ($action == 'getTemplateList') {
         ajax::success(jMQTT::templateList());
     }
 
-    if (init('action') == 'getTemplateByFile') {
+    if ($action == 'getTemplateByFile') {
         ajax::success(jMQTT::templateByFile(init('file')));
     }
 
-    if (init('action') == 'deleteTemplateByFile') {
+    if ($action == 'deleteTemplateByFile') {
         if (!jMQTT::deleteTemplateByFile(init('file')))
             throw new Exception(__('Impossible de supprimer le fichier', __FILE__));
         ajax::success(true);
     }
 
-    if (init('action') == 'applyTemplate') {
+    if ($action == 'applyTemplate') {
         /** @var jMQTT $eqpt */
         $eqpt = jMQTT::byId(init('id'));
         if (!is_object($eqpt) || $eqpt->getEqType_name() != jMQTT::class) {
@@ -196,7 +197,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'createTemplate') {
+    if ($action == 'createTemplate') {
         /** @var jMQTT $eqpt */
         $eqpt = jMQTT::byId(init('id'));
         if (!is_object($eqpt) || $eqpt->getEqType_name() != jMQTT::class) {
@@ -208,17 +209,17 @@ try {
 
     ###################################################################################################################
     # Configuration page
-    if (init('action') == 'startMqttClient') {
+    if ($action == 'startMqttClient') {
         $broker = jMQTT::getBrokerFromId(init('id'));
         ajax::success($broker->startMqttClient());
     }
 
-    if (init('action') == 'sendLoglevel') {
+    if ($action == 'sendLoglevel') {
         jMQTTComToDaemon::setLogLevel(init('level'));
         ajax::success();
     }
 
-    if (init('action') == 'updateUrlOverride') {
+    if ($action == 'updateUrlOverride') {
         config::save('urlOverrideEnable', init('valEn'), 'jMQTT');
         config::save('urlOverrideValue', init('valUrl'), 'jMQTT');
         ajax::success();
@@ -226,7 +227,7 @@ try {
 
     ###################################################################################################################
     # Real Time mode
-    if (init('action') == 'changeRealTimeMode') {
+    if ($action == 'changeRealTimeMode') {
         $id = init('id');
         $mode = init('mode');
         $subscribe = init('subscribe', '#');
@@ -291,7 +292,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'realTimeGet') {
+    if ($action == 'realTimeGet') {
         $_file = jeedom::getTmpFolder('jMQTT').'/rt' . trim(init('id')) . '.json';
         if (!file_exists($_file))
             ajax::success([]);
@@ -322,44 +323,44 @@ try {
         ajax::success($res);
     }
 
-    if (init('action') == 'realTimeClear') {
+    if ($action == 'realTimeClear') {
         jMQTTComToDaemon::realTimeClear(init('id'));
         ajax::success();
     }
 
     ###################################################################################################################
     # Mosquitto
-    if (init('action') == 'mosquittoInstall') {
+    if ($action == 'mosquittoInstall') {
         jMQTTPlugin::mosquittoInstall();
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
-    if (init('action') == 'mosquittoRepare') {
+    if ($action == 'mosquittoRepare') {
         jMQTTPlugin::mosquittoRepare();
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
-    if (init('action') == 'mosquittoRemove') {
+    if ($action == 'mosquittoRemove') {
         jMQTTPlugin::mosquittoRemove();
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
-    if (init('action') == 'mosquittoReStart') {
+    if ($action == 'mosquittoReStart') {
         exec('sudo systemctl restart mosquitto');
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
-    if (init('action') == 'mosquittoStop') {
+    if ($action == 'mosquittoStop') {
         exec('sudo systemctl stop mosquitto');
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
-    if (init('action') == 'mosquittoConf') {
+    if ($action == 'mosquittoConf') {
         $cfg = file_get_contents('/etc/mosquitto/conf.d/jMQTT.conf');
         ajax::success($cfg);
     }
 
-    if (init('action') == 'mosquittoEdit') {
+    if ($action == 'mosquittoEdit') {
         if (init('config') == '')
             throw new Exception(__('Configuration manquante', __FILE__));
         shell_exec('sudo tee /etc/mosquitto/conf.d/jMQTT.conf > /dev/null <<jmqttEOF' . "\n" . init('config') . 'jmqttEOF');
@@ -368,7 +369,7 @@ try {
 
     ###################################################################################################################
     # Backup / Restore
-    if (init('action') == 'backupCreate') {
+    if ($action == 'backupCreate') {
         jMQTT::logger('info', sprintf(__("Sauvegarde de jMQTT lancée...", __FILE__)));
         $out = null;
         $code = null;
@@ -389,7 +390,7 @@ try {
         ajax::success($backups);
     }
 
-    if (init('action') == 'backupRemove') {
+    if ($action == 'backupRemove') {
         /** @var null|string $_backup */
         $_backup = init('file');
         if (
@@ -408,7 +409,7 @@ try {
         ajax::success();
     }
 
-    if (init('action') == 'backupRestore') {
+    if ($action == 'backupRestore') {
         /** @var null|string $_backup */
         $_backup = init('file');
         if (
@@ -472,7 +473,7 @@ try {
 
     // ########################################################################
     // Community Post
-    if (init('action') == 'jMQTTCommunityPost') {
+    if ($action == 'jMQTTCommunityPost') {
         $infoPost = '< Ajoutez un titre puis rédigez votre question/problème ici, sans effacer les infos de config indiquées ci-dessous >';
         $infoPost .= '<br/><br/><br/><br/>--- <br/>[details="Mes infos de config"]<br/>```json';
 
@@ -543,7 +544,7 @@ try {
         ajax::success(array('url' => $url, 'plugin' => 'jMQTT'));
     }
 
-    throw new Exception(__('Aucune méthode Ajax ne correspond à :', __FILE__) . ' ' . init('action'));
+    throw new Exception(__('Aucune méthode Ajax ne correspond à :', __FILE__) . ' ' . $action);
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());
