@@ -11,60 +11,64 @@ class jMQTTPlugin {
         jMQTTDaemon::pluginStats();
     }
 
+
+    /**
+     * Provides Python dependancy information
+     */
+    private static function pythonRequirementsInstalled(string $pythonPath, string $requirementsPath) {
+        if (!file_exists($pythonPath) || !file_exists($requirementsPath)) {
+        return false;
+        }
+        exec("{$pythonPath} -m pip freeze", $packages_installed);
+        $packages = join("||", $packages_installed);
+        exec("cat {$requirementsPath}", $packages_needed);
+        foreach ($packages_needed as $line) {
+        if (preg_match('/([^\s]+)[\s]*([>=~]=)[\s]*([\d+\.?]+)$/', $line, $need) === 1) {
+            if (preg_match('/' . $need[1] . '==([\d+\.?]+)/', $packages, $install) === 1) {
+            if ($need[2] == '==' && $need[3] != $install[1]) {
+                return false;
+            } elseif (version_compare($need[3], $install[1], '>')) {
+                return false;
+            }
+            } else {
+            return false;
+            }
+        }
+        }
+        return true;
+    }
+
     /**
      * Provides dependancy information
      *
-     * @return string[]
+     * @return string[] Status of dependencies
      */
     public static function dependancy_info() {
-        $depLogFile = 'jMQTT_dep';
-        $depProgressFile = jeedom::getTmpFolder('jMQTT') . '/dependancy';
-
+        $phpReq = __DIR__ . '/../../resources/JsonPath-PHP/vendor/composer/installed.json';
+        $pipBin = __DIR__ . '/../../resources/jmqttd/venv/bin/pip';
+        $pythonBin = __DIR__ . '/../../resources/jmqttd/venv/bin/python3';
+        $pythonReq = __DIR__ . '/../../resources/python-requirements/requirements.txt';
         $return = array();
-        $return['log'] = log::getPathToLog($depLogFile);
-        $return['progress_file'] = $depProgressFile;
-        $return['state'] = jMQTTConst::CLIENT_OK;
-
-        if (file_exists($depProgressFile)) {
-            jMQTT::logger(
-                'debug',
-                sprintf(
-                    __("Dépendances en cours d'installation... (%s%%)", __FILE__),
-                    trim(file_get_contents($depProgressFile))
-                )
-            );
-            $return['state'] = jMQTTConst::CLIENT_NOK;
-            return $return;
-        }
-
-        if (exec(system::getCmdSudo() . "cat " . __DIR__ . "/../../resources/JsonPath-PHP/vendor/composer/installed.json 2>/dev/null | grep galbar/jsonpath | wc -l") < 1) {
-            jMQTT::logger(
-                'debug',
-                __('Relancez les dépendances, le package PHP JsonPath est manquant', __FILE__)
-            );
-            $return['state'] = jMQTTConst::CLIENT_NOK;
-        }
-
-        if (!file_exists(__DIR__ . '/../../resources/jmqttd/venv/bin/pip3') || !file_exists(__DIR__ . '/../../resources/jmqttd/venv/bin/python3')) {
-            jMQTT::logger(
-                'debug',
-                __("Relancez les dépendances, le venv Python n'a pas encore été créé", __FILE__)
-            );
-            $return['state'] = jMQTTConst::CLIENT_NOK;
+        $return['log'] = log::getPathToLog('jMQTT_dep');
+        $return['progress_file'] = jeedom::getTmpFolder('jMQTT') . '/dependancy';
+        $return['state'] = 'ok';
+        if (file_exists($return['progress_file'])) {
+            $return['state'] = 'in_progress';
+            jMQTT::logger('debug', sprintf('Dependencies being installed... (%s%%)',
+                trim(file_get_contents($return['progress_file']))
+            ));
+        } elseif (exec("sudo cat " . $phpReq . " 2>/dev/null | grep galbar/jsonpath | wc -l") < 1) {
+            jMQTT::logger('debug', 'Relaunch dependencies, PHP package JsonPath is missing');
+            $return['state'] = 'nok';
+        } elseif (!file_exists($pipBin) || !file_exists($pythonBin)) {
+            jMQTT::logger('debug', 'Relaunch dependencies, the Python venv has not been created yet');
+            $return['state'] = 'nok';
+        } elseif (!self::pythonRequirementsInstalled($pythonBin, $pythonReq)) {
+            jMQTT::logger('debug', 'Relaunch dependencies, at least one required Python library is missing from the venv');
+            $return['state'] = 'nok';
         } else {
-            exec(__DIR__ . '/../../resources/jmqttd/venv/bin/pip3 freeze --no-cache-dir -r '.__DIR__ . '/../../resources/python-requirements/requirements.txt 2>&1 >/dev/null', $output);
-            if (count($output) > 0) {
-                jMQTT::logger(
-                    'error',
-                    __('Relancez les dépendances, au moins une bibliothèque Python requise est manquante dans le venv :', __FILE__).
-                    ' <br/>'.implode('<br/>', $output)
-                );
-                $return['state'] = jMQTTConst::CLIENT_NOK;
-            }
+            jMQTT::logger('debug', 'Dependencies installed.');
         }
-
-        if ($return['state'] == jMQTTConst::CLIENT_OK)
-            jMQTT::logger('debug', sprintf(__('Dépendances installées.', __FILE__)));
         return $return;
     }
 
@@ -75,28 +79,32 @@ class jMQTTPlugin {
      */
     public static function dependancy_install() {
         $depLogFile = 'jMQTT_dep';
-        $depProgressFile = jeedom::getTmpFolder('jMQTT') . '/dependancy';
-
-        jMQTT::logger('info', sprintf(__('Installation des dépendances, voir log dédié (%s)', __FILE__), $depLogFile));
-
+        $depLogFullPath = log::getPathToLog($depLogFile);
+        jMQTT::logger('info', sprintf(
+            __('Installation des dépendances, voir log dédié (%s)', __FILE__),
+            $depLogFile
+        ));
         $update = update::byLogicalId('jMQTT');
+        $version = $update->getLocalVersion();
+        $branch = $update->getConfiguration()['version'];
+        $pythonBin = __DIR__ . '/../../resources/venv/bin/python3';
         shell_exec(
             'echo "\n\n================================================================================\n'.
             '== Jeedom '.jeedom::version().' '.jeedom::getHardwareName().
             ' in $(lsb_release -d -s | xargs echo -n) on $(arch | xargs echo -n)/'.
             '$(dpkg --print-architecture | xargs echo -n)/$(getconf LONG_BIT | xargs echo -n)bits\n'.
-            '== $(python3 -VV | xargs echo -n)\n'.
+            '== $('.$pythonBin.' -VV | xargs echo -n)\n'.
             '== jMQTT v'.config::byKey('version', 'jMQTT', 'unknown', true).
-            ' ('.$update->getLocalVersion().') branch:'.$update->getConfiguration()['version'].
+            ' ('.$version.') branch:'.$branch.
             ' previously:v'.config::byKey('previousVersion', 'jMQTT', 'unknown', true).
-            '" >> '.log::getPathToLog($depLogFile)
+            '" >> '.$depLogFullPath
         );
 
         return array(
-            'script' => __DIR__ . '/../../resources/install_#stype#.sh ' . $depProgressFile,
-            'log' => log::getPathToLog($depLogFile)
+            'script' => __DIR__ . '/../../resources/install_#stype#.sh',
+            'log' => $depLogFullPath
         );
-    }
+      }
 
     /**
      * Additionnal information for a new Community post

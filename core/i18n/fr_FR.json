@@ -210,8 +210,6 @@
 		"(en docker)": "(en Docker)",
 		"(en local)": "(en local)",
 		"Aucun équipement Broker local n'a été trouvé, création en cours...": "Aucun équipement Broker local n'a été trouvé, création en cours...",
-		"Dépendances en cours d'installation... (%s%%)": "Dépendances en cours d'installation... (%s%%)",
-		"Dépendances installées.": "Dépendances installées.",
 		"Inconnu": "Inconnu",
 		"Installation des dépendances, voir log dédié (%s)": "Installation des dépendances, voir log dédié (%s)",
 		"L'équipement Broker #%s# a été créé.": "L'équipement Broker #%s# a été créé.",
@@ -223,10 +221,7 @@
 		"Mosquitto est installé par": "Mosquitto est installé par",
 		"Mosquitto n'a pas été installé par un plugin connu.": "Mosquitto n'a pas été installé par un plugin connu.",
 		"Mosquitto n'est pas installé en tant que service.": "Mosquitto n'est pas installé en tant que service.",
-		"Mosquitto n'est pas installé sur ce système !": "Mosquitto n'est pas installé sur ce système !",
-		"Relancez les dépendances, au moins une bibliothèque Python requise est manquante dans le venv :": "Relancez les dépendances, au moins une bibliothèque Python requise est manquante dans le venv :",
-		"Relancez les dépendances, le package PHP JsonPath est manquant": "Relancez les dépendances, le package PHP JsonPath est manquant",
-		"Relancez les dépendances, le venv Python n'a pas encore été créé": "Relancez les dépendances, le venv Python n'a pas encore été créé"
+		"Mosquitto n'est pas installé sur ce système !": "Mosquitto n'est pas installé sur ce système !"
 	},
 	"plugins/jMQTT/core/class/mqttApiRequest.class.php": {
 		"API: Exception": "API: Exception",

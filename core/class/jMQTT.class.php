@@ -1475,7 +1475,8 @@ class jMQTT extends eqLogic {
         } catch (Throwable $e) {
             jMQTT::logger('debug', sprintf(
                 "---> stop() Exception: %s,\n@Stack: %s",
-                $e->getMessage(), $e->getTraceAsString()
+                $e->getMessage(),
+                $e->getTraceAsString()
             ));
         }
     }
@@ -1506,6 +1507,13 @@ class jMQTT extends eqLogic {
     public static function getConfigForCommunity() {
         return jMQTTPlugin::getConfigForCommunity();
      }
+
+    /**
+     * Avoid backing-up "resources/venv" folder
+     */
+    public static function backupExclude() {
+        return ['resources/jmqttd/venv'];
+    }
 
     /**
      * Create or update all autoPub listeners
