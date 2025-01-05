@@ -488,6 +488,8 @@ try {
         $infoPost .= '<br/>PHP version: ' . phpversion();
         $infoPost .= '<br/>Python version: ';
         $infoPost .= trim(shell_exec("python3 -V | cut -d' ' -f2"));
+        $m = jMQTTPlugin::mosquittoCheck();
+        $infoPost .= '<br/>Mosquitto: ' . ($m['installed'] ? ('Installed by ' . $m['by']) : 'Not installed');
 
         // Jeedom core version and branch
         $infoPost .= '<br/>Core version: ';
