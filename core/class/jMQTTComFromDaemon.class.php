@@ -104,7 +104,7 @@ class jMQTTComFromDaemon {
                         $cuid
                     )
                 );
-                exec(system::getCmdSudo() . 'fuser ' . $cport . '/tcp 2> /dev/null', $output, $retval);
+                exec('sudo fuser ' . $cport . '/tcp 2> /dev/null', $output, $retval);
                 if ($retval != 0 || count($output) == 0) {
                     // Execution issue, could not get a match
                     jMQTT::logger(
@@ -176,7 +176,7 @@ class jMQTTComFromDaemon {
         //jMQTT::logger('debug', 'daemonDown(uid='.$uid.')');
         // Remove PID file
         if (file_exists($pid_file = jeedom::getTmpFolder(jMQTT::class) . '/jmqttd.py.pid'))
-            shell_exec(system::getCmdSudo() . 'rm -rf ' . $pid_file . ' 2>&1 > /dev/null');
+            shell_exec('sudo rm -rf ' . $pid_file . ' 2>&1 > /dev/null');
         // Delete in cache the daemon uid (as it is disconnected)
         try {
             cache::delete('jMQTT::' . jMQTTConst::CACHE_DAEMON_UID);

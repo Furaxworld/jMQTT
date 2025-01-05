@@ -234,21 +234,21 @@ class jMQTTPlugin {
             'info',
             __("Mosquitto : Démarrage de l'installation, merci de patienter...", __FILE__)
         );
-        shell_exec(system::getCmdSudo() . ' DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::="--force-confask,confnew,confmiss" mosquitto');
+        shell_exec('sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::="--force-confask,confnew,confmiss" mosquitto');
 
         $retval = 255;
         $output = null;
         // Check if mosquitto has already been configured (/etc/mosquitto/conf.d/jMQTT.conf is present)
         exec('ls /etc/mosquitto/conf.d/jMQTT.conf 2>/dev/null | wc -w', $output, $retval); // retval = 1 conf ok ; 0 no conf
         if ($retval == 0) {
-            shell_exec(system::getCmdSudo() . ' cp ' . __DIR__ . '/../../resources/mosquitto_jMQTT.conf /etc/mosquitto/conf.d/jMQTT.conf');
+            shell_exec('sudo cp ' . __DIR__ . '/../../resources/mosquitto_jMQTT.conf /etc/mosquitto/conf.d/jMQTT.conf');
         }
 
         // Cleanup, just in case
-        shell_exec(system::getCmdSudo() . ' systemctl daemon-reload');
-        shell_exec(system::getCmdSudo() . ' systemctl enable mosquitto');
-        shell_exec(system::getCmdSudo() . ' systemctl stop mosquitto');
-        shell_exec(system::getCmdSudo() . ' systemctl start mosquitto');
+        shell_exec('sudo systemctl daemon-reload');
+        shell_exec('sudo systemctl enable mosquitto');
+        shell_exec('sudo systemctl stop mosquitto');
+        shell_exec('sudo systemctl start mosquitto');
 
         // Write in Core config that jMQTT has installed Mosquitto
         config::save('mosquitto::installedBy', 'jMQTT');
@@ -259,7 +259,7 @@ class jMQTTPlugin {
         foreach(jMQTT::getBrokers() as $broker) {
             $hn = $broker->getConf(jMQTTConst::CONF_KEY_MQTT_ADDRESS);
             $ip = gethostbyname($hn);
-            $localips = explode(' ', exec(system::getCmdSudo() . 'hostname -I'));
+            $localips = explode(' ', exec('sudo hostname -I'));
             if ($hn == '' || substr($ip, 0, 4) == '127.' || in_array($ip, $localips)) {
                 $brokerexists = true;
                 jMQTT::logger(
@@ -323,18 +323,18 @@ class jMQTTPlugin {
     // Reinstall Mosquitto service over previous install
     public static function mosquittoRepare() {
         // Stop service
-        shell_exec(system::getCmdSudo() . ' systemctl stop mosquitto');
+        shell_exec('sudo systemctl stop mosquitto');
         // Ensure no config is remaining
-        shell_exec(system::getCmdSudo() . ' DEBIAN_FRONTEND=noninteractive rm -rf /etc/mosquitto');
+        shell_exec('sudo DEBIAN_FRONTEND=noninteractive rm -rf /etc/mosquitto');
         // Reinstall and force reapply service default config
-        shell_exec(system::getCmdSudo() . ' DEBIAN_FRONTEND=noninteractive apt-get install --reinstall -y -o Dpkg::Options::="--force-confask,confnew,confmiss" mosquitto');
+        shell_exec('sudo DEBIAN_FRONTEND=noninteractive apt-get install --reinstall -y -o Dpkg::Options::="--force-confask,confnew,confmiss" mosquitto');
         // Apply jMQTT config
-        shell_exec(system::getCmdSudo() . ' cp ' . __DIR__ . '/../../resources/mosquitto_jMQTT.conf /etc/mosquitto/conf.d/jMQTT.conf');
+        shell_exec('sudo cp ' . __DIR__ . '/../../resources/mosquitto_jMQTT.conf /etc/mosquitto/conf.d/jMQTT.conf');
         // Cleanup, just in case
-        shell_exec(system::getCmdSudo() . ' systemctl daemon-reload');
-        shell_exec(system::getCmdSudo() . ' systemctl stop mosquitto');
-        shell_exec(system::getCmdSudo() . ' systemctl enable mosquitto');
-        shell_exec(system::getCmdSudo() . ' systemctl start mosquitto');
+        shell_exec('sudo systemctl daemon-reload');
+        shell_exec('sudo systemctl stop mosquitto');
+        shell_exec('sudo systemctl enable mosquitto');
+        shell_exec('sudo systemctl start mosquitto');
         // Write in Core config that jMQTT has installed Mosquitto
         config::save('mosquitto::installedBy', 'jMQTT');
     }
@@ -357,8 +357,8 @@ class jMQTTPlugin {
             return;
         }
         // Remove package and /etc folder
-        shell_exec(system::getCmdSudo() . ' DEBIAN_FRONTEND=noninteractive apt-get purge -y mosquitto');
-        shell_exec(system::getCmdSudo() . ' DEBIAN_FRONTEND=noninteractive rm -rf /etc/mosquitto');
+        shell_exec('sudo DEBIAN_FRONTEND=noninteractive apt-get purge -y mosquitto');
+        shell_exec('sudo DEBIAN_FRONTEND=noninteractive rm -rf /etc/mosquitto');
         // Remove from Core config that Mosquitto is installed
         config::remove('mosquitto::installedBy');
     }

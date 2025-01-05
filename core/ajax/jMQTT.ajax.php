@@ -345,12 +345,12 @@ try {
     }
 
     if (init('action') == 'mosquittoReStart') {
-        exec(system::getCmdSudo() . ' systemctl restart mosquitto');
+        exec('sudo systemctl restart mosquitto');
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
     if (init('action') == 'mosquittoStop') {
-        exec(system::getCmdSudo() . ' systemctl stop mosquitto');
+        exec('sudo systemctl stop mosquitto');
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 
@@ -362,7 +362,7 @@ try {
     if (init('action') == 'mosquittoEdit') {
         if (init('config') == '')
             throw new Exception(__('Configuration manquante', __FILE__));
-        shell_exec(system::getCmdSudo() . ' tee /etc/mosquitto/conf.d/jMQTT.conf > /dev/null <<jmqttEOF' . "\n" . init('config') . 'jmqttEOF');
+        shell_exec('sudo tee /etc/mosquitto/conf.d/jMQTT.conf > /dev/null <<jmqttEOF' . "\n" . init('config') . 'jmqttEOF');
         ajax::success(jMQTTPlugin::mosquittoCheck());
     }
 

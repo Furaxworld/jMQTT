@@ -290,21 +290,21 @@ try {
     if (init('action') == 'depDelete') {
         jMQTT::logger('debug', 'debug.ajax.php: ' . init('action'));
         jMQTTDaemon::stop();
-        exec(system::getCmdSudo() . 'rm -rf '.__DIR__.'/../../resources/JsonPath-PHP/composer.lock');
-        exec(system::getCmdSudo() . 'rm -rf '.__DIR__.'/../../resources/JsonPath-PHP/vendor');
+        exec('sudo rm -rf '.__DIR__.'/../../resources/JsonPath-PHP/composer.lock');
+        exec('sudo rm -rf '.__DIR__.'/../../resources/JsonPath-PHP/vendor');
         ajax::success();
     }
     if (init('action') == 'venvDelete') {
         jMQTT::logger('debug', 'debug.ajax.php: ' . init('action'));
         jMQTTDaemon::stop();
-        exec(system::getCmdSudo() . 'rm -rf '.__DIR__.'/../../resources/jmqttd/venv');
+        exec('sudo rm -rf '.__DIR__.'/../../resources/jmqttd/venv');
         ajax::success();
     }
     if (init('action') == 'dynContentDelete') {
         jMQTT::logger('debug', 'debug.ajax.php: ' . init('action'));
         jMQTTDaemon::stop();
-        exec(system::getCmdSudo() . 'rm -rf '.__DIR__.'/../../resources/jmqttd/__pycache__');
-        exec(system::getCmdSudo() . 'rm -rf '.jeedom::getTmpFolder('jMQTT').'/rt*.json');
+        exec('sudo rm -rf '.__DIR__.'/../../resources/jmqttd/__pycache__');
+        exec('sudo rm -rf '.jeedom::getTmpFolder('jMQTT').'/rt*.json');
         ajax::success();
     }
     if (init('action') == 'threadDump') {
