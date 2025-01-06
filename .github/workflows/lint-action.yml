@@ -63,7 +63,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r ${GITHUB_WORKSPACE}/plugins/jMQTT/resources/jmqttd_api/requirements-tests.txt
+          python -m pip install -r ${GITHUB_WORKSPACE}/plugins/jMQTT/resources/python-requirements/requirements-tests.txt
       - name: Lint with PHPStan
         run: phpstan analyse -c plugins/jMQTT/.github/configs/phpstan.neon --no-progress --error-format=github || true
 
