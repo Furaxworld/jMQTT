@@ -221,21 +221,33 @@ class jMQTT extends eqLogic {
                 __DIR__ . '/../../' . jMQTTConst::PATH_TEMPLATES_PERSO . $_filename
             );
 
-            // if 'configuration' key exists in this template
-            if (isset($templateValue['configuration'])) {
+            // If 'configuration' key doesn't exists in this template, add it
+            if (!isset($templateValue['configuration'])) {
+                $templateValue['configuration'] = array();
+            }
 
-                // if auto_add_cmd doesn't exists in configuration, we need to move topic from logicalId to configuration
-                if (!isset($templateValue['configuration'][jMQTTConst::CONF_KEY_AUTO_ADD_TOPIC])) {
-                    $topic = $templateValue['logicalId'];
-                    $templateValue['configuration'][jMQTTConst::CONF_KEY_AUTO_ADD_TOPIC] = $topic;
-                    $templateValue['logicalId'] = '';
+            // If auto_add_cmd doesn't exists in configuration, we need to move topic from logicalId to configuration
+            if (!isset($templateValue['configuration'][jMQTTConst::CONF_KEY_AUTO_ADD_TOPIC])) {
+                $topic = $templateValue['logicalId'];
+                $templateValue['configuration'][jMQTTConst::CONF_KEY_AUTO_ADD_TOPIC] = $topic;
+                $templateValue['logicalId'] = '';
+            }
+
+            // If commentaire exists in configuration, we need to move topic it to comment
+            if (isset($templateValue['configuration']['commentaire'])) {
+                $coreComment = (isset($templateValue['comment'])) ? trim($templateValue['comment']) : '';
+                $confComment = trim($templateValue['configuration']['commentaire']);
+                unset($templateValue['configuration']['commentaire']);
+                $templateValue['comment'] = $confComment;
+                if ($coreComment !== '') {
+                    $templateValue['comment'] .= "\n" . $coreComment;
                 }
             }
 
             // Save back template in the file
             $jsonExport = json_encode(
                 array($templateKey=>$templateValue),
-                JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             );
             file_put_contents(
                 __DIR__ . '/../../' . jMQTTConst::PATH_TEMPLATES_PERSO . $_filename,
@@ -742,7 +754,6 @@ class jMQTT extends eqLogic {
                 unset($eqar['category']);
                 unset($eqar['configuration']['battery_type']);
                 unset($eqar['configuration']['createtime']);
-                unset($eqar['configuration']['commentaire']);
                 unset($eqar['configuration']['updatetime']);
                 unset($eqar['comment']);
                 unset($eqar['display']);

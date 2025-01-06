@@ -2,11 +2,11 @@
     "TICMeter Historique Mode": {
         "name": "TICMeter Historique Mode",
         "eqType_name": "jMQTT",
+        "comment": "TICMeter Historique Mode\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/117",
         "configuration": {
             "type": "eqpt",
             "auto_add_cmd": "0",
             "auto_add_topic": "%s/#",
-            "commentaire": "TICMeter Historique Mode\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/117",
             "icone": "teleinfo"
         },
         "category": {

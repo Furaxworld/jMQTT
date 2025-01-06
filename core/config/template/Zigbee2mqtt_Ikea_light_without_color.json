@@ -2,6 +2,7 @@
     "Zigbee2mqtt Ikea light without color": {
         "name": "Zigbee2mqtt Ikea light without color",
         "eqType_name": "jMQTT",
+        "comment": "Zigbee2mqtt Ikea light without color\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/115",
         "configuration": {
             "type": "eqpt",
             "auto_add_cmd": "0",
@@ -9,7 +10,6 @@
             "Qos": "1",
             "availability_cmd": "Online",
             "icone": "lightbulb",
-            "commentaire": "Zigbee2mqtt Ikea light without color\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/115",
             "battery_type": "Secteur"
         },
         "category": {

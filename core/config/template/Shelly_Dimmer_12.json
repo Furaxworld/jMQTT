@@ -2,12 +2,12 @@
     "Shelly Dimmer 12": {
         "name": "Shelly Dimmer 12",
         "eqType_name": "jMQTT",
+        "comment": "Shelly Dimmer 12\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/116",
         "configuration": {
             "type": "eqpt",
             "auto_add_cmd": "0",
             "auto_add_topic": "%s/#",
             "Qos": "1",
-            "commentaire": "Shelly Dimmer 12\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/116",
             "icone": "dimmer"
         },
         "category": {
