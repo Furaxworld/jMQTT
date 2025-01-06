@@ -1848,11 +1848,7 @@ class jMQTT extends eqLogic {
      */
     private function interactMessage($query, $param=array()) {
         try {
-            // Validate query
-            if (!is_string($query))
-                $param['query'] = '';
-            else
-                $param['query'] = $query;
+            $param['query'] = $query;
             // Process parameters
             if (isset($param['utf8']) && $param['utf8'])
                 $query = mb_convert_encoding($query, 'UTF-8', 'ISO-8859-1');

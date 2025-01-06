@@ -775,7 +775,7 @@ class jMQTTCmd extends cmd {
      * @param int $eqLogic_id of the eqLogic
      * @param string $topic topic to search
      * @param boolean $multiple true if the cmd related topic and associated JSON derived commands are requested
-     * @return null|jMQTTCmd|array(jMQTTCmd)
+     * @return null|jMQTTCmd|jMQTTCmd[]
      */
     public static function byEqLogicIdAndTopic($eqLogic_id, $topic, $multiple=false) {
         // JSON_UNESCAPED_UNICODE used to fix #92
