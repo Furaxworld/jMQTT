@@ -2,7 +2,7 @@
     "Frigate Camera V2": {
         "name": "Frigate Camera V2",
         "eqType_name": "jMQTT",
-        "comment": "Jeedom Community: https://community.jeedom.com/t/128925",
+        "comment": "Frigate Camera V2\nJeedom Community: https://community.jeedom.com/t/128925",
         "configuration": {
             "type": "eqpt",
             "createtime": "2023-11-19 18:04:47",

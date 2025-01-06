@@ -1,6 +1,6 @@
 {
-    "Shelly_Blu_HT": {
-        "name": "Shelly_Blu_HT",
+    "Shelly Blu HT": {
+        "name": "Shelly Blu HT",
         "eqType_name": "jMQTT",
         "comment": "Shelly Blu HT\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/125",
         "configuration": {

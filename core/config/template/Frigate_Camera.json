@@ -2,7 +2,7 @@
     "Frigate Camera": {
         "name": "Frigate Camera",
         "eqType_name": "jMQTT",
-        "comment": "Jeedom Community: https://community.jeedom.com/t/117108",
+        "comment": "Frigate Camera\nJeedom Community: https://community.jeedom.com/t/117108",
         "configuration": {
             "auto_add_cmd": "0",
             "type": "eqpt",

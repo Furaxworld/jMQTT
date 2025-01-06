@@ -1,6 +1,6 @@
 {
-    "Shelly_Plus_Smoke": {
-        "name": "Shelly_Plus_Smoke",
+    "Shelly Plus Smoke": {
+        "name": "Shelly Plus Smoke",
         "eqType_name": "jMQTT",
         "comment": "Shelly Plus Smoke\nJeedom Community: https://community.jeedom.com/t/jmqtt-partage-de-template/71743/123",
         "configuration": {

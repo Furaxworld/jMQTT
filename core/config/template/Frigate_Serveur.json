@@ -2,7 +2,7 @@
     "Frigate Serveur": {
         "name": "Frigate Serveur",
         "eqType_name": "jMQTT",
-        "comment": "Jeedom Community: https://community.jeedom.com/t/117108",
+        "comment": "Frigate Serveur\nJeedom Community: https://community.jeedom.com/t/117108",
         "configuration": {
             "auto_add_cmd": "0",
             "type": "eqpt",
