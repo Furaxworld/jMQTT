@@ -90,7 +90,7 @@ try {
     ###################################################################################################################
     # Add a new command on an existing jMQTT equipment
     if ($action == 'newCmd') {
-        /** @var jMQTT $eqpt */
+        /** @var void|jMQTT $eqpt */
         $eqpt = jMQTT::byId(init('id'));
         if (!is_object($eqpt) || $eqpt->getEqType_name() != jMQTT::class) {
             throw new Exception(sprintf(__("Pas d'équipement jMQTT avec l'id %s", __FILE__), init('id')));
@@ -187,7 +187,7 @@ try {
     }
 
     if ($action == 'applyTemplate') {
-        /** @var jMQTT $eqpt */
+        /** @var void|jMQTT $eqpt */
         $eqpt = jMQTT::byId(init('id'));
         if (!is_object($eqpt) || $eqpt->getEqType_name() != jMQTT::class) {
             throw new Exception(sprintf(__("Pas d'équipement jMQTT avec l'id %s", __FILE__), init('id')));
@@ -198,7 +198,7 @@ try {
     }
 
     if ($action == 'createTemplate') {
-        /** @var jMQTT $eqpt */
+        /** @var void|jMQTT $eqpt */
         $eqpt = jMQTT::byId(init('id'));
         if (!is_object($eqpt) || $eqpt->getEqType_name() != jMQTT::class) {
             throw new Exception(sprintf(__("Pas d'équipement jMQTT avec l'id %s", __FILE__), init('id')));

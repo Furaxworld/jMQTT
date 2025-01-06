@@ -41,6 +41,12 @@ class eqLogic {
      * @return null|jeeObject
      */
     public function getObject() {}
+
+    /**
+	 * @param int|string $_id
+	 * @return void|eqLogic void if $_id is not valid else the eqLogic
+	 */
+	public static function byId($_id) {}
 }
 
 class jeeObject {

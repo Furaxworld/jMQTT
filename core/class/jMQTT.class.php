@@ -482,6 +482,7 @@ class jMQTT extends eqLogic {
         $eqpt->setIsEnable(1);
         $eqpt->setTopic($topic);
 
+        // TODO: is_object() will always evaluate to true, should be reworked?
         if (is_object($broker)) {
             $broker->log(
                 'info',
@@ -652,8 +653,9 @@ class jMQTT extends eqLogic {
         // . new id will be given at saving
         // . suscribing topic let empty to force the user to change it
         // . remove commands: they are defined at the next step (as done in the parent method)
-        /** @var jMQTT $eqLogicCopy */
-        $eqLogicCopy = clone $this;
+        /** @var jMQTT $eqLogic */
+        $eqLogic = $this;
+        $eqLogicCopy = clone $eqLogic;
         $eqLogicCopy->setId('');
         $eqLogicCopy->setName($_name);
         if ($eqLogicCopy->getIsEnable()) {
@@ -1004,13 +1006,13 @@ class jMQTT extends eqLogic {
         // ------------------------ New or Existing Broker or Normal eqpt ------------------------
 
         // It's time to gather informations that will be used in postSave
-        if ($this->getId() == '')
+        /** @var void|jMQTT $eqLogic */
+        $eqLogic = self::byId($this->getId());
+        if (!is_object($eqLogic))
             $this->_preSaveInformations = null; // New eqpt => Nothing to collect
         else { // Existing eqpt
 
             // load eqLogic from DB
-            /** @var jMQTT $eqLogic */
-            $eqLogic = self::byId($this->getId());
             $this->_preSaveInformations = array(
                 'name'                        => $eqLogic->getName(),
                 'isEnable'                    => $eqLogic->getIsEnable(),

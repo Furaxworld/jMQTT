@@ -429,10 +429,11 @@ class jMQTTComFromDaemon {
                 ));
                 return;
             }
-            $cmd->getEqLogic()->getBroker()->setStatus(array(
-                'lastCommunication' => date('Y-m-d H:i:s'),
-                'timeout' => 0
-            ));
+            /** @var jMQTT $eqLogic */
+            $eqLogic = $cmd->getEqLogic();
+            $eqLogic->getBroker()->setStatus(
+                array('lastCommunication' => date('Y-m-d H:i:s'), 'timeout' => 0)
+            );
             $cmd->updateCmdValue($value);
             cache::set('jMQTT::'.jMQTTConst::CACHE_DAEMON_LAST_RCV, time());
         } catch (Throwable $e) {
