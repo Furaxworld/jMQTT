@@ -95,7 +95,7 @@
     "La version Python dans le Venv doit être mise à jour": "Python version in Venv needs update",
     "Initialisation de python3 et des prérequis": "Init python3 & prerequisites",
     "Initialisation de PyEnv": "Init PyEnv",
-    "Installation ou Mise à jour de PyEnv": "install or update PyEnv",
+    "Installation ou Mise à jour de PyEnv": "Install or update PyEnv",
     "Installation de Python": "Install Python",
     "avec PyEnv": "with PyEnv",
     "Chemin de python3": "python3 path",

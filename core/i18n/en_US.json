@@ -739,10 +739,8 @@
 		"URL de Callback du Démon": "Daemon Callback URL"
 	},
 	"plugins/jMQTT/plugin_info/install.php": {
-		"Application du fichier de migration vers la version %d...": "Applying migration file to version %s...",
 		"Exception rencontrée lors de la migration vers la version %1\\$d : %2\\$s": "Exception encountered during migration to version %1\\$s: %2\\$s",
-		"Impossible de récupérer le numéro de version dans le fichier info.json, ceci ce devrait pas arriver !": "Unable to retrieve version number from info.json file, this should NOT be possible!",
-		"Migration vers la version %d réalisée avec succès": "Migration to version %s successfully completed"
+		"Impossible de récupérer le numéro de version dans le fichier info.json, ceci ce devrait pas arriver !": "Unable to retrieve version number from info.json file, this should NOT be possible!"
 	},
 	"plugins/jMQTT/resources/update/1.php": {
 		"Migration de la commande info:": "Migration of info command:",
