@@ -260,7 +260,7 @@ try {
                     continue;
                 $subscriptions[] = $t;
             }
-            if (count($subscriptions) == 0) {
+            if (empty($subscriptions)) {
                 throw new Exception(
                     __("Impossible d'activer le mode Temps Réel sans topic de souscription", __FILE__)
                 );

@@ -413,7 +413,7 @@ class jMQTTCmd extends cmd {
                 // Get all commands
                 preg_match_all("/#([0-9]*)#/", $req, $matches);
                 $cmds = array_unique($matches[1]);
-                if (count($cmds) > 0) { // There are commands
+                if (!empty($cmds)) { // There are commands
                     foreach ($cmds as $cmd_id) {
                         $cmd = cmd::byId($cmd_id);
                         if (!is_object($cmd))
@@ -604,7 +604,7 @@ class jMQTTCmd extends cmd {
             'listenerAction',
             '"cmd":"'.$this->getId().'"'
         );
-        if (count($listener) == 0) { // No listener found
+        if (empty($listener)) { // No listener found
             $listener = null;
         } else {
             while (count($listener) > 1) {
@@ -615,7 +615,7 @@ class jMQTTCmd extends cmd {
             $listener = $listener[0];
         }
         // We need a listener
-        if (count($cmds) > 0) {
+        if (!empty($cmds)) {
             if (!is_object($listener))
                 $listener = new listener();
             $listener->setClass(__CLASS__);

@@ -535,7 +535,7 @@ function full_import($data) {
         $req = $cmd->getConfiguration('request', '');
         preg_match_all("/#([0-9]*)#/", $req, $matches);
         $req_cmds = array_unique($matches[1]);
-        if (count($req_cmds) == 0)
+        if (empty($req_cmds))
             continue;
         foreach ($req_cmds as $req_cmd) {
             if (isset($old_cmds[$req_cmd])) {

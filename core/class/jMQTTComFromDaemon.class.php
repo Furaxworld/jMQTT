@@ -70,7 +70,7 @@ class jMQTTComFromDaemon {
             unset($output);
             exec("lsof -nP -iTCP -sTCP:LISTEN | grep -E 'python3[ \t]+" . $rpid . "[ \t]+.+[:]" . $rport ."[ \t]+' 2> /dev/null", $output, $retval);
         }
-        if ($retval != 0 || count($output) == 0) {
+        if ($retval != 0 || empty($output)) {
             // Execution issue, could not get a match
             jMQTT::logger(
                 'warning',
@@ -105,7 +105,7 @@ class jMQTTComFromDaemon {
                     )
                 );
                 exec('sudo fuser ' . $cport . '/tcp 2> /dev/null', $output, $retval);
-                if ($retval != 0 || count($output) == 0) {
+                if ($retval != 0 || empty($output)) {
                     // Execution issue, could not get a match
                     jMQTT::logger(
                         'warning',

@@ -2102,7 +2102,7 @@ class jMQTT extends eqLogic {
                 }
 
                 // If there is some cmd matching exactly with the topic
-                if (is_array($cmds) && count($cmds)) {
+                if (!empty($cmds)) { // Yes, $cmds needs to be re-tested as be modified by auto add cmd
                     foreach ($cmds as $cmd) {
                         // Update the command value
                         $cmd->updateCmdValue($msgValue);
@@ -2111,7 +2111,7 @@ class jMQTT extends eqLogic {
                 }
 
                 // If there is some cmd matching exactly with the topic with JSON path
-                if (is_array($jsonCmds) && count($jsonCmds)) {
+                if (!empty($jsonCmds)) {
 
                     // decode JSON payload
                     $jsonArray = reset($jsonCmds)->decodeJsonMsg($msgValue);
