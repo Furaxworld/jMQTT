@@ -78,6 +78,10 @@ class jMQTT extends eqLogic {
      * @return array[] list of name and file array.
      */
     public static function templateList() {
+        // TODO: Get template listing directly from GitHub
+        //  Use url: https://api.github.com/repos/BadWolf42/jMQTT/contents/core/config/template + ?ref=dev ?
+        //  labels: enhancement, php
+
         // self::logger('debug', 'templateList()');
         $return = array();
         // Get personal templates
@@ -483,6 +487,7 @@ class jMQTT extends eqLogic {
         $eqpt->setTopic($topic);
 
         // TODO: is_object() will always evaluate to true, should be reworked?
+        //  labels: enhancement, php
         if (is_object($broker)) {
             $broker->log(
                 'info',
