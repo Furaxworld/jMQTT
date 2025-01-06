@@ -1987,8 +1987,6 @@ class jMQTT extends eqLogic {
             if ($eqpt->getIsEnable()) {
                 // Looking for all cmds matching Eq and Topic in the DB
                 $cmds = jMQTTCmd::byEqLogicIdAndTopic($eqpt->getId(), $msgTopic, true);
-                if (is_null($cmds))
-                    $cmds = array();
                 $jsonCmds = array();
                 // Keep only info cmds in $cmds and put all JSON info commands in $jsonCmds
                 foreach($cmds as $k => $cmd) {

@@ -499,8 +499,8 @@ class jMQTTCmd extends cmd {
                     $root_topic,
                     false
                 );
-
-                if (is_object($root_cmd)) {
+                if (isset($root_cmd[0]) && is_object($root_cmd[0])) {
+                    $root_cmd = $root_cmd[0];
                     $value = $root_cmd->execCmd();
                     if (!is_null($value) && $value !== '') {
                         $jsonArray = $root_cmd->decodeJsonMsg($value);
@@ -783,7 +783,7 @@ class jMQTTCmd extends cmd {
      * @param int $eqLogic_id of the eqLogic
      * @param string $topic topic to search
      * @param boolean $multiple true if the cmd related topic and associated JSON derived commands are requested
-     * @return null|jMQTTCmd|jMQTTCmd[]
+     * @return jMQTTCmd[]
      */
     public static function byEqLogicIdAndTopic($eqLogic_id, $topic, $multiple=false) {
         // JSON_UNESCAPED_UNICODE used to fix #92
@@ -813,10 +813,7 @@ class jMQTTCmd extends cmd {
         }
 
         $cmds = DB::Prepare($sql, $values, DB::FETCH_TYPE_ALL, PDO::FETCH_CLASS, __CLASS__);
-        if (count($cmds) == 0)
-            return null;
-        else
-            return $multiple ? $cmds : $cmds[0];
+        return $cmds;
     }
 
     /**
