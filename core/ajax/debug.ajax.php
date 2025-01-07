@@ -21,7 +21,7 @@ try {
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        throw new Exception('401 - Unauthorized access');
     }
 
     require_once __DIR__ . '/../../core/class/jMQTT.class.php';

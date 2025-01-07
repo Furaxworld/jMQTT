@@ -106,7 +106,6 @@ try {
         $payload = init('payload');
         if ($payload == '') {
             ajax::success(array('success' => false, 'message' => __('Pas de payload', __FILE__), 'value' => ''));
-            return;
         }
 
         $jsonArray = json_decode($payload, true);
@@ -130,7 +129,7 @@ try {
         try {
             $jsonobject = new JsonPath\JsonObject($jsonArray);
             $value = $jsonobject->get($jsonPath);
-                if ($value !== false && $value !== array())
+            if ($value !== false && $value !== array()) {
                 ajax::success(array(
                     'success' => true,
                     'message' => 'OK',
@@ -139,20 +138,15 @@ try {
                         JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
                     )
                 ));
-            else
+            } else {
                 ajax::success(array(
                     'success' => false,
                     'message' => __("Le Chemin JSON n'a pas retourné de résultat sur ce message json", __FILE__),
                     'value' => ''
                 ));
+            }
         } catch (Throwable $e) {
-            ajax::success(array(
-                'success' => false,
-                'message' => __("Exception: ", __FILE__) . $e->getMessage(),
-                'stack' => $e->getTraceAsString(),
-                'value' => ''
-            ));
-            if (log::getLogLevel('jMQTT') <= 100)
+            if (log::getLogLevel('jMQTT') <= 100) {
                 jMQTT::logger(
                     'warning',
                     str_replace(
@@ -167,6 +161,13 @@ try {
                         )
                     )
                 );
+            }
+            ajax::success(array(
+                'success' => false,
+                'message' => __("Exception: ", __FILE__) . $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+                'value' => ''
+            ));
         }
     }
 
