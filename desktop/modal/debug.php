@@ -593,7 +593,6 @@ function builder_actions(_root_div) {
     add_action_event(div, 'killAllSIGKILL',   'warning', 'fas fa-skull-crossbones',            'KillAll jMQTTd (forcefully)');
     add_action_event(div, 'hbStart',          'success', 'fas fa-play',                        'Start Heatbeats');
     add_action_event(div, 'hbStop',           'danger',  'fas fa-stop',                        'Stop Heatbeats');
-    div.append('<div class="col-sm-6">&nbsp;</div>'); // Alignement
     div.append('<div class="col-sm-12" style="height:15px">&nbsp;</div>'); // Spacer
     _root_div.append(div);
 
