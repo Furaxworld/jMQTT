@@ -213,8 +213,8 @@ class jMQTTDaemon {
         jMQTT::logger('info', __('Démarrage du démon jMQTT', __FILE__));
         // Always stop first.
         jMQTTDaemon::stop();
-        // Ensure cron is enabled (removing the key or setting it to 1 is equivalent to enabled)
-        config::remove('functionality::cron::enable', jMQTT::class);
+        // Ensure cron is enabled
+        config::save('functionality::cron::enable', 1, jMQTT::class);
         // Check if daemon is launchable
         $dep_info = jMQTTPlugin::dependancy_info();
         if ($dep_info['state'] != jMQTTConst::CLIENT_OK) {
