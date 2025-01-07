@@ -717,5 +717,10 @@
 	},
 	"plugins/jMQTT/resources/update/20.php": {
 		"Crons orphelins supprimés": "Orphaned crons deleted"
+	},
+	"plugins/jMQTT/resources/update/25.1.0.php": {
+		"Commentaires des équipements correctement migrés": "Comments on equipements successfully migrated",
+		"Commentaires des templates correctement migrés": "Comments on templates successfully migrated",
+		"Erreur lors de la lecture du Template '%s'": "Error reading template '%s'"
 	}
 }

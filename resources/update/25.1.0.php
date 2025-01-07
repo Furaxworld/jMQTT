@@ -15,12 +15,11 @@ foreach (jMQTT::byType('jMQTT') as $eqLogic) {
 jMQTT::logger('info', __("Commentaires des équipements correctement migrés", __FILE__));
 
 
-$templateFolderPath = __DIR__ . '/../../core/config/template/';
-foreach (ls($templateFolderPath, '*.json', false, array('files', 'quiet')) as $file) {
+$jeedomRoot = getRootPath();
+$existing_files = self::templateList();
+foreach ($existing_files as list($templateName, $file))
     try {
-        [$templateKey, $templateContent] = jMQTT::templateRead(
-            $templateFolderPath . $file
-        );
+        [$templateKey, $templateContent] = jMQTT::templateRead($jeedomRoot . $file);
 
         // Get comment from Core field
         $coreComment = (isset($templateContent['comment'])) ? trim($templateContent['comment']) : '';
@@ -54,7 +53,7 @@ foreach (ls($templateFolderPath, '*.json', false, array('files', 'quiet')) as $f
             array($templateKey => $templateRes),
             JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
         );
-        file_put_contents($templateFolderPath . $file, $jsonExport . "\n");
+        file_put_contents($jeedomRoot . $file, $jsonExport . "\n");
     } catch (Throwable $e) {
         jMQTT::logger('error', sprintf(
             __("Erreur lors de la lecture du Template '%s'", __FILE__),
@@ -62,6 +61,6 @@ foreach (ls($templateFolderPath, '*.json', false, array('files', 'quiet')) as $f
         ));
     }
 }
-jMQTT::logger('info', __("Commentaires des Templates correctement migrés", __FILE__));
+jMQTT::logger('info', __("Commentaires des templates correctement migrés", __FILE__));
 
 ?>

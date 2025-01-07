@@ -688,7 +688,7 @@
 		"Templates nettoyés des informations du Broker": "Templates nettoyés des informations du Broker."
 	},
 	"plugins/jMQTT/resources/update/7.php": {
-		"Erreur lors de la lecture du Template '%s'": "Erreur lors de la lecture du template '%s'.",
+		"Erreur lors de la lecture du Template '%s'": "Erreur lors de la lecture du template '%s'",
 		"JsonPath séparé du Topic pour tous les commandes info jMQTT": "JsonPath séparé du topic pour tous les commandes info jMQTT",
 		"JsonPath séparé du Topic pour tous les Templates jMQTT": "JsonPath séparé du topic pour tous les templates jMQTT"
 	},
@@ -717,5 +717,10 @@
 	},
 	"plugins/jMQTT/resources/update/20.php": {
 		"Crons orphelins supprimés": "Crons orphelins supprimés"
+	},
+	"plugins/jMQTT/resources/update/25.1.0.php": {
+		"Commentaires des équipements correctement migrés": "Commentaires des équipements correctement migrés",
+		"Commentaires des templates correctement migrés": "Commentaires des templates correctement migrés",
+		"Erreur lors de la lecture du Template '%s'": "Erreur lors de la lecture du Template '%s'"
 	}
 }
