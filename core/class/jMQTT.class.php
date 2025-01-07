@@ -75,13 +75,9 @@ class jMQTT extends eqLogic {
     /**
      * Return a list of all templates name and file.
      *
-     * @return array[] list of name and file array.
+     * @return string[][] list of array of templates names and files.
      */
     public static function templateList() {
-        // TODO: Get template listing directly from GitHub
-        //  Use url: https://api.github.com/repos/BadWolf42/jMQTT/contents/core/config/template + ?ref=dev ?
-        //  labels: enhancement, php
-
         // self::logger('debug', 'templateList()');
         $return = array();
         // Get personal templates
@@ -110,6 +106,9 @@ class jMQTT extends eqLogic {
             }
         }
         // Get official templates
+        // TODO: Get official template listing directly from GitHub
+        //  Use url: https://api.github.com/repos/BadWolf42/jMQTT/contents/core/config/template + ?ref=dev ?
+        //  labels: enhancement, php
         foreach (
             ls(
                 __DIR__ . '/../../' . jMQTTConst::PATH_TEMPLATES_JMQTT,
