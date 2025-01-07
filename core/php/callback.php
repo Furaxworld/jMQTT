@@ -66,7 +66,7 @@ if (is_null($messages) || !is_array($messages)) {
 }
 
 // Iterate through the messages
-foreach($messages as $message) {
+foreach ($messages as $message) {
     // No cmd supplied
     if (!isset($message['cmd'])) {
         jMQTT::logger(

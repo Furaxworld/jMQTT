@@ -212,7 +212,7 @@ class jMQTTDaemon {
     public static function checkAllMqttClients() {
         if (jMQTTDaemon::check() != jMQTTConst::CLIENT_OK)
             return;
-        foreach(jMQTT::getBrokers() as $broker) {
+        foreach (jMQTT::getBrokers() as $broker) {
             if (!$broker->getIsEnable()
                 || $broker->getMqttClientState() == jMQTTConst::CLIENT_OK) {
                 continue;

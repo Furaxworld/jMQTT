@@ -343,7 +343,7 @@ class jMQTTPlugin {
 
         // Looking for eqBroker pointing to local mosquitto
         $brokerexists = false;
-        foreach(jMQTT::getBrokers() as $broker) {
+        foreach (jMQTT::getBrokers() as $broker) {
             $hn = $broker->getConf(jMQTTConst::CONF_KEY_MQTT_ADDRESS);
             $ip = gethostbyname($hn);
             $localips = explode(' ', exec('sudo hostname -I'));
@@ -370,7 +370,7 @@ class jMQTTPlugin {
 
             // Looking for a conflict with eqBroker name
             $brokernameconflict = false;
-            foreach(jMQTT::getBrokers() as $broker) {
+            foreach (jMQTT::getBrokers() as $broker) {
                 if ($broker->getName() == $brokername) {
                     $brokernameconflict = true;
                     break;
@@ -382,7 +382,7 @@ class jMQTTPlugin {
                     $i++;
                     $brokernameconflict = false;
                     $brokername = 'local'.$i;
-                    foreach(jMQTT::getBrokers() as $broker) {
+                    foreach (jMQTT::getBrokers() as $broker) {
                         if ($broker->getName() == $brokername) {
                             $brokernameconflict = true;
                             break;
