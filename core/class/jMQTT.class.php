@@ -278,7 +278,7 @@ class jMQTT extends eqLogic {
         /** @var null|string $_filename */
         if (
             !isset($_filename)
-            || is_null($_filename) // @phpstan-ignore-line
+            || is_null($_filename)
             || $_filename == ''
         ) {
             return false;
@@ -486,19 +486,11 @@ class jMQTT extends eqLogic {
         $eqpt->setIsEnable(1);
         $eqpt->setTopic($topic);
 
-        // TODO: is_object() will always evaluate to true, should be reworked?
-        //  labels: enhancement, php
-        if (is_object($broker)) {
-            $broker->log(
-                'info',
-                sprintf(
-                    __("Création de l'équipement %1\$s pour le topic %2\$s", __FILE__),
-                    $name,
-                    $topic
-                )
-            );
-            $eqpt->setBrkId($broker->getId());
-        }
+        $broker->log('info', sprintf(
+            __("Création de l'équipement %1\$s pour le topic %2\$s", __FILE__),
+            $name, $topic
+        ));
+        $eqpt->setBrkId($broker->getId());
         $eqpt->save();
 
         // Advise the desktop page (jMQTT.js) that a new equipment has been added
@@ -658,9 +650,8 @@ class jMQTT extends eqLogic {
         // . new id will be given at saving
         // . suscribing topic let empty to force the user to change it
         // . remove commands: they are defined at the next step (as done in the parent method)
-        /** @var jMQTT $eqLogic */
-        $eqLogic = $this;
-        $eqLogicCopy = clone $eqLogic;
+        /** @var jMQTT $eqLogicCopy */
+        $eqLogicCopy = clone $this; // @phpstan-ignore-line
         $eqLogicCopy->setId('');
         $eqLogicCopy->setName($_name);
         if ($eqLogicCopy->getIsEnable()) {

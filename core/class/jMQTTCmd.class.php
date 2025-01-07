@@ -264,10 +264,11 @@ class jMQTTCmd extends cmd {
     public function execute($_options = null) {
         if ($this->getType() != 'action')
             return;
+        /** @var string $request */
         $request = $this->getConfiguration(jMQTTConst::CONF_KEY_REQUEST, "");
         $topic = $this->getTopic();
-        $qos = $this->getConfiguration(jMQTTConst::CONF_KEY_PUB_QOS, 1);
-        $retain = $this->getConfiguration(jMQTTConst::CONF_KEY_RETAIN, 0);
+        $qos = intval($this->getConfiguration(jMQTTConst::CONF_KEY_PUB_QOS, 1));
+        $retain = boolval($this->getConfiguration(jMQTTConst::CONF_KEY_RETAIN, 0));
         /** @var jMQTT $eq */
         $eq = $this->getEqLogic();
         // Prevent error when $_options is null or accessing an unavailable $_options
@@ -306,7 +307,7 @@ class jMQTTCmd extends cmd {
             $replaceBy = array_merge(
                 $replaceBy,
                 array(
-                    $this->getId(),
+                    strval($this->getId()),
                     $this->getName(),
                     $this->getHumanName(),
                     $this->getSubType(),
@@ -319,7 +320,7 @@ class jMQTTCmd extends cmd {
             );
             $replaceBy = array_merge(
                 $replaceBy,
-                array($eq->getId(), $eq->getName(), $eq->getHumanName(), $eq->getTopic())
+                array(strval($eq->getId()), $eq->getName(), $eq->getHumanName(), $eq->getTopic())
             );
             $request = str_replace($replace, $replaceBy, $request);
         }
@@ -499,7 +500,7 @@ class jMQTTCmd extends cmd {
                     $root_topic,
                     false
                 );
-                if (isset($root_cmd[0]) && is_object($root_cmd[0])) {
+                if (isset($root_cmd[0])) {
                     $root_cmd = $root_cmd[0];
                     $value = $root_cmd->execCmd();
                     if (!is_null($value) && $value !== '') {
@@ -550,7 +551,7 @@ class jMQTTCmd extends cmd {
                             $this->getTopic(),
                             '',
                             1,
-                            1
+                            true
                         );
                     }
                 }
@@ -690,9 +691,9 @@ class jMQTTCmd extends cmd {
      * preRemove method to log that a command is removed
      */
     public function preRemove() {
-        /** @var jMQTT $eqLogic */
+        /** @var void|jMQTT $eqLogic */
         $eqLogic = $this->getEqLogic();
-        if ($eqLogic) {
+        if (is_object($eqLogic)) {
             $eqLogic->log(
                 'info',
                 sprintf(
@@ -751,6 +752,10 @@ class jMQTTCmd extends cmd {
         }
     }
 
+    /**
+     * Sets the name of this command (after a cleanup)
+     * @param string $name to set for this command
+     */
     public function setName($name) {
         // Since 3.3.22, the core removes / from command names
         $name = str_replace("/", ":", $name);
@@ -758,18 +763,34 @@ class jMQTTCmd extends cmd {
         return $this;
     }
 
+    /**
+     * Sets the topic for this command
+     * @param string $topic to set for this command
+     */
     public function setTopic($topic) {
         $this->setConfiguration('topic', $topic);
     }
 
+    /**
+     * Returns the topic for this command
+     * @return string Topic for this command
+     */
     public function getTopic() {
         return $this->getConfiguration('topic');
     }
 
+    /**
+     * Sets the jsonPath for this command
+     * @param string $jsonPath to set for this command
+     */
     public function setJsonPath($jsonPath) {
         $this->setConfiguration(jMQTTConst::CONF_KEY_JSON_PATH, $jsonPath);
     }
 
+    /**
+     * Returns the jsonPath for this command
+     * @return string JsonPath for this command
+     */
     public function getJsonPath() {
         return $this->getConfiguration(jMQTTConst::CONF_KEY_JSON_PATH, '');
     }

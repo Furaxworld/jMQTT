@@ -395,7 +395,7 @@ try {
         $_backup = init('file');
         if (
             !isset($_backup)
-            || is_null($_backup) // @phpstan-ignore-line
+            || is_null($_backup)
             || $_backup == ''
         ) {
             throw new Exception(__('Merci de fournir le fichier à supprimer', __FILE__));
@@ -414,7 +414,7 @@ try {
         $_backup = init('file');
         if (
             !isset($_backup)
-            || is_null($_backup) // @phpstan-ignore-line
+            || is_null($_backup)
             || $_backup == ''
         ){
             throw new Exception(__('Merci de fournir le fichier à restaurer', __FILE__));

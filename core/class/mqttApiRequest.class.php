@@ -210,8 +210,8 @@ class mqttApiRequest {
                 'api',
                 $this->ret_topic,
                 json_encode($_arrErr),
-                '1',
-                '0'
+                1,
+                false
             );
     }
 
@@ -222,7 +222,7 @@ class mqttApiRequest {
      */
     protected function publishSuccess($_jsonRes) {
         if (isset($this->ret_topic))
-            $this->broker->publish('api', $this->ret_topic, $_jsonRes, '1', '0');
+            $this->broker->publish('api', $this->ret_topic, $_jsonRes, 1, false);
         else
             $this->broker->log(
                 'warning',
