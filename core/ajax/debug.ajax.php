@@ -308,6 +308,7 @@ try {
             $update->doUpdate();
             log::add('update', 'alert', "Launch cron dependancy plugins");
             try {
+                /** @var null|cron $cron */
                 $cron = cron::byClassAndFunction('plugin', 'checkDeamon');
                 if (is_object($cron)) {
                     $cron->start();
