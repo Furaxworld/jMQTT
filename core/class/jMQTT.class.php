@@ -273,14 +273,10 @@ class jMQTT extends eqLogic {
      * @param string $_filename template file name to look for.
      * @return bool success
      */
-    public static function deleteTemplateByFile($_filename){
+    public static function deleteTemplateByFile($_filename) {
         // self::logger('debug', 'deleteTemplateByFile: ' . $_filename);
-        /** @var null|string $_filename */
-        if (
-            !isset($_filename)
-            || is_null($_filename)
-            || $_filename == ''
-        ) {
+        /** @var string $_filename */
+        if ($_filename == '') {
             return false;
         }
         $existing_files = self::templateList();
@@ -302,7 +298,7 @@ class jMQTT extends eqLogic {
      * @param string $_baseTopic subscription topic
      * @param bool $_keepCmd keep existing commands
      */
-    public function applyATemplate($_template, $_baseTopic, $_keepCmd = true){
+    public function applyATemplate($_template, $_baseTopic, $_keepCmd = true) {
         if (
             $this->getType() != jMQTTConst::TYP_EQPT
             || is_null($_template) // @phpstan-ignore-line

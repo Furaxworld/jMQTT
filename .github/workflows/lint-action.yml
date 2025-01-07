@@ -14,8 +14,8 @@ jobs:
         php-version: ['8.2']
         python-version: ['3.11']
         # node-version: ['12']
-        jeedom-branch: ['V4-stable']
-        # jeedom-branch: ['V4-stable', 'alpha']
+        # jeedom-branch: ['V4-stable']
+        jeedom-branch: ['V4-stable', 'alpha']
 
     steps:
       - name: Checkout Jeedom ${{ matrix.jeedom-branch }}
@@ -78,6 +78,7 @@ jobs:
           black: true
           black_dir: plugins/jMQTT/resources/jmqttd
           black_args: --config ../../.github/configs/black.toml
+          black_auto_fix: false
           flake8: true
           flake8_dir: plugins/jMQTT/resources/jmqttd
           flake8_args: --config ../../.github/configs/flake8.toml

@@ -391,13 +391,9 @@ try {
     }
 
     if ($action == 'backupRemove') {
-        /** @var null|string $_backup */
+        /** @var string $_backup */
         $_backup = init('file');
-        if (
-            !isset($_backup)
-            || is_null($_backup)
-            || $_backup == ''
-        ) {
+        if ($_backup == '') {
             throw new Exception(__('Merci de fournir le fichier à supprimer', __FILE__));
         }
 
@@ -410,13 +406,9 @@ try {
     }
 
     if ($action == 'backupRestore') {
-        /** @var null|string $_backup */
+        /** @var string $_backup */
         $_backup = init('file');
-        if (
-            !isset($_backup)
-            || is_null($_backup)
-            || $_backup == ''
-        ){
+        if ($_backup == ''){
             throw new Exception(__('Merci de fournir le fichier à restaurer', __FILE__));
         }
 
