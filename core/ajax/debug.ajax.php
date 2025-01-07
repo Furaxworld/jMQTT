@@ -418,7 +418,7 @@ try {
     if ($action == 'statsSend') {
         jMQTT::logger('debug', 'debug.ajax.php: ' . $action);
         cache::set('jMQTT::nextStats', time() - 300);
-        jMQTTDaemon::pluginStats();
+        jMQTTPlugin::stats();
         ajax::success();
     }
 
