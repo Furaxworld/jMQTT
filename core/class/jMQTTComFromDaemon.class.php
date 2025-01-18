@@ -70,7 +70,7 @@ class jMQTTComFromDaemon {
             unset($output);
             exec("lsof -nP -iTCP -sTCP:LISTEN | grep -E 'python3[ \t]+" . $rpid . "[ \t]+.+[:]" . $rport ."[ \t]+' 2> /dev/null", $output, $retval);
         }
-        if ($retval != 0 || count($output) == 0) {
+        if ($retval != 0 || empty($output)) {
             // Execution issue, could not get a match
             jMQTT::logger(
                 'warning',
@@ -104,8 +104,8 @@ class jMQTTComFromDaemon {
                         $cuid
                     )
                 );
-                exec(system::getCmdSudo() . 'fuser ' . $cport . '/tcp 2> /dev/null', $output, $retval);
-                if ($retval != 0 || count($output) == 0) {
+                exec('sudo fuser ' . $cport . '/tcp 2> /dev/null', $output, $retval);
+                if ($retval != 0 || empty($output)) {
                     // Execution issue, could not get a match
                     jMQTT::logger(
                         'warning',
@@ -176,7 +176,7 @@ class jMQTTComFromDaemon {
         //jMQTT::logger('debug', 'daemonDown(uid='.$uid.')');
         // Remove PID file
         if (file_exists($pid_file = jeedom::getTmpFolder(jMQTT::class) . '/jmqttd.py.pid'))
-            shell_exec(system::getCmdSudo() . 'rm -rf ' . $pid_file . ' 2>&1 > /dev/null');
+            shell_exec('sudo rm -rf ' . $pid_file . ' 2>&1 > /dev/null');
         // Delete in cache the daemon uid (as it is disconnected)
         try {
             cache::delete('jMQTT::' . jMQTTConst::CACHE_DAEMON_UID);
@@ -188,7 +188,7 @@ class jMQTTComFromDaemon {
         // Remove listeners
         jMQTT::listenersRemoveAll();
         // Get all brokers and set them as disconnected
-        foreach(jMQTT::getBrokers() as $broker) {
+        foreach (jMQTT::getBrokers() as $broker) {
             try {
                 jMQTTComFromDaemon::brkDown($broker->getId());
             } catch (Throwable $e) {
@@ -308,16 +308,13 @@ class jMQTTComFromDaemon {
 
     public static function brkDown($id) {
         try { // Catch if broker is unknown / deleted
-            /** @var jMQTT $broker */
+            /** @var void|jMQTT $broker */
             $broker = jMQTT::byId($id); // Don't use getBrokerFromId here!
             if (!is_object($broker)) {
-                jMQTT::logger(
-                    'debug',
-                    sprintf(
-                        __("Pas d'équipement avec l'id %s (il vient probablement d'être supprimé)", __FILE__),
-                        $id
-                    )
-                );
+                jMQTT::logger('debug',sprintf(
+                    __("Pas d'équipement avec l'id %s (il vient probablement d'être supprimé)", __FILE__),
+                    $id
+                ));
                 return;
             }
             if ($broker->getType() != jMQTTConst::TYP_BRK) {
@@ -420,7 +417,7 @@ class jMQTTComFromDaemon {
 
     public static function value($cmdId, $value) {
         try {
-            /** @var jMQTTCmd $cmd */
+            /** @var void|jMQTTCmd $cmd */
             $cmd = jMQTTCmd::byId(intval($cmdId));
             if (!is_object($cmd)) {
                 jMQTT::logger('debug', sprintf(
@@ -429,10 +426,11 @@ class jMQTTComFromDaemon {
                 ));
                 return;
             }
-            $cmd->getEqLogic()->getBroker()->setStatus(array(
-                'lastCommunication' => date('Y-m-d H:i:s'),
-                'timeout' => 0
-            ));
+            /** @var jMQTT $eqLogic */
+            $eqLogic = $cmd->getEqLogic();
+            $eqLogic->getBroker()->setStatus(
+                array('lastCommunication' => date('Y-m-d H:i:s'), 'timeout' => 0)
+            );
             $cmd->updateCmdValue($value);
             cache::set('jMQTT::'.jMQTTConst::CACHE_DAEMON_LAST_RCV, time());
         } catch (Throwable $e) {

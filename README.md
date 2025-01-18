@@ -6,8 +6,7 @@
 [![commit activity](https://img.shields.io/github/commit-activity/m/BadWolf42/jMQTT)](https://github.com/BadWolf42/jMQTT/pulse)
 [![last commit](https://img.shields.io/github/last-commit/BadWolf42/jMQTT)](https://GitHub.com/BadWolf42/jMQTT)
 <br/>
-[![Check PHP](https://github.com/BadWolf42/jMQTT/actions/workflows/check-php.yml/badge.svg)](https://github.com/BadWolf42/jMQTT/actions/workflows/check-php.yml)
-[![Check Python](https://github.com/BadWolf42/jMQTT/actions/workflows/check-python.yml/badge.svg)](https://github.com/BadWolf42/jMQTT/actions/workflows/check-python.yml)
+[![Checks](https://github.com/BadWolf42/jMQTT/actions/workflows/lint-action.yml/badge.svg)](https://github.com/BadWolf42/jMQTT/actions/workflows/lint-action.yml)
 [![pages-build-deployment](https://github.com/BadWolf42/jMQTT/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/BadWolf42/jMQTT/actions/workflows/pages/pages-build-deployment)
 
 __________________

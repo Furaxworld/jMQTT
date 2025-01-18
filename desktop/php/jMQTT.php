@@ -7,13 +7,13 @@ sendVarToJS('eqType', 'jMQTT');
 include_file('desktop', 'jMQTT.globals', 'js', 'jMQTT');
 include_file('desktop', 'jMQTT.functions', 'js', 'jMQTT');
 
-// Send daemon current state
-sendVarToJS('jmqtt_globals.daemonState', jMQTTDaemon::state());
-
 /** @var jMQTT[][] $eqNonBrokers */
 $eqNonBrokers = jMQTT::getNonBrokers();
 /** @var jMQTT[] $eqBrokers */
 $eqBrokers = jMQTT::getBrokers();
+
+// Send daemon current state
+sendVarToJS('jmqtt_globals.daemonState', jMQTTDaemon::state());
 
 $eqBrokersName = array();
 foreach ($eqBrokers as $id => $eqL) {
@@ -61,32 +61,21 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = 'logoS
                 displayActionCard('{{Configuration}}', 'fa-wrench', 'gotoPluginConf');
                 displayActionCard('{{Broker}}', 'fa-plus-circle', 'addJmqttBrk');
                 displayActionCard('{{Santé}}', 'fa-medkit', 'healthMQTT');
-                if (isset($_GET['debug']) || config::byKey('debugMode', 'jMQTT', "0") === "1" /* || log::getLogLevel('jMQTT') <= 100 */)
-                    displayActionCard('{{Debug}}', 'fa-bug', 'debugJMQTT');
                 displayActionCard('{{Templates}}', 'fa-cubes', 'templatesMQTT');
                 displayActionCard('{{Équipement}}', 'fa-plus-circle', 'addJmqttEq', 'logoPrimary');
+                if (isset($_GET['debug']) || config::byKey('debugMode', 'jMQTT', "0") === "1" /* || log::getLogLevel('jMQTT') <= 100 */)
+                    displayActionCard('{{Debug}}', 'fa-toolbox', 'debugJMQTT', 'danger');
                 ?>
                 </div>
             </div>
-            <?php
-            // TODO: Handle core4.3 `createCommunityPost` compatibility
-            //  Remove when Jeedom 4.3 is no longer supported
-            //  labels: enhancement, core4.3, php
-
-            // Community card, only displayed if Jeedom version 4.4+
-            if (version_compare((jeedom::version() ?? '4.3.0'), '4.4.0', '>=')) {
-            ?>
             <div class="col-sm-2">
                 <legend><i class="fas fa-comments"></i>&nbsp;Community</legend>
                 <div class="eqLogicThumbnailContainer">
                 <?php
-                 displayActionCard('{{Nouveau post}}', 'fa-ambulance', 'createCommunityPost');
+                displayActionCard('{{Nouveau sujet}}', 'fa-ambulance', 'jMQTTCommunityPost');
                 ?>
                 </div>
             </div>
-            <?php
-            }
-            ?>
         </div>
         <div class="input-group" style="margin:5px;">
             <input class="form-control roundedLeft" placeholder="{{Rechercher}}" id="in_searchEqlogic">

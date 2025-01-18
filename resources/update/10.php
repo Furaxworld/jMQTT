@@ -5,11 +5,8 @@ foreach (jMQTT::byType('jMQTT') as $eqLogic) {
     /** @var jMQTT $eqLogic */
     // Protect already modified Eq
     $batId = $eqLogic->getBatteryCmd();
-    if (
-        $batId != false
-        && $batId != '' // @phpstan-ignore-line
-    ) {
-        $cmd = jMQTTCmd::byId($batId);
+    $cmd = jMQTTCmd::byId($batId);
+    if (is_object($cmd)){
         jMQTT::logger('info', sprintf(__("#%1\$s# définit DÉJÀ la batterie de #%2\$s#", __FILE__), $cmd->getHumanName(), $eqLogic->getHumanName()));
         continue;
     }

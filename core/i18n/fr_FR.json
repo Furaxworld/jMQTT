@@ -1,10 +1,4 @@
 {
-	"plugins/jMQTT/core/ajax/debug.ajax.php": {
-		"401 - Accès non autorisé": "401 - Accès non autorisé",
-		"Aucune méthode Ajax ne correspond à :": "Aucune méthode Ajax ne correspond à :",
-		"Format invalide": "Format non valide",
-		"Le PID du démon n'a pas été trouvé, est-il lancé ?": "Le PID du démon n'a pas été trouvé, est-il lancé ?"
-	},
 	"plugins/jMQTT/core/ajax/jMQTT.ajax.php": {
 		"401 - Accès non autorisé": "401 - Accès non autorisé",
 		"Arrêt du Mode Temps Réel...": "Arrêt du mode Temps Réel...",
@@ -182,7 +176,6 @@
 	"plugins/jMQTT/core/class/jMQTTDaemon.class.php": {
 		"%1\\$s() a levé l'Exception: %2\\$s": "%1\\$s() a levé l'Exception: %2\\$s",
 		"Arrêt du démon jMQTT": "Arrêt du démon jMQTT",
-		"Aucune raison d'envoyer des données statistiques avant le %s": "Aucune raison d'envoyer des données statistiques avant le %s",
 		"Démarrage du démon jMQTT": "Démarrage du démon jMQTT",
 		"Démon avec un mauvais port.": "Démon avec un mauvais port.",
 		"Démon avec un PID mort.": "Démon avec un PID mort.",
@@ -190,19 +183,15 @@
 		"Démon démarré": "Démon démarré",
 		"Démon jMQTT arrêté": "Démon jMQTT arrêté",
 		"Démon OK": "Démon OK",
-		"Données statistiques envoyées (Réponse : %s)": "Données statistiques envoyées (Réponse : %s)",
-		"Données statistiques supprimées": "Données statistiques supprimées coté serveur",
 		"Envoi d'un Heartbeat au Démon (rien n'a été envoyé depuis >45s).": "Envoi d'un Heartbeat au Démon (rien n'a été envoyé depuis >45s).",
 		"Envoi du signal SIGKILL au Démon": "Envoi du signal SIGKILL au Démon",
 		"Envoi du signal SIGTERM au Démon": "Envoi du signal SIGTERM au Démon",
-		"Impossible de communiquer avec le serveur de statistiques (Réponse : %s)": "Impossible de communiquer avec le serveur de statistiques (Réponse : %s)",
 		"Impossible de lancer le démon jMQTT, vérifiez les logs de jMQTT": "Impossible de lancer le démon jMQTT, vérifiez les logs de jMQTT",
 		"Installation/Vérification forcée des dépendances, le démon jMQTT démarrera au prochain essai": "Installation/Vérification forcée des dépendances, le démon jMQTT démarrera au prochain essai",
 		"Lancement du démon jMQTT": "Lancement du démon jMQTT",
 		"Lancement du démon jMQTT, commande shell: '%s'": "Lancement du démon jMQTT, commande shell: '%s'",
 		"Nettoyage du Démon": "Nettoyage du Démon",
 		"Pas de message ou de Heartbeat reçu depuis >300s, le Démon est probablement mort.": "Pas de message ou de Heartbeat reçu depuis >300s, le Démon est probablement mort.",
-		"Transmission des données statistiques suivantes : %s": "Transmission des données statistiques (anonymes) suivantes : %s",
 		"Veuillez vérifier la configuration et les dépendances": "Veuillez vérifier la configuration et les dépendances"
 	},
 	"plugins/jMQTT/core/class/jMQTTPlugin.class.php": {
@@ -210,8 +199,6 @@
 		"(en docker)": "(en Docker)",
 		"(en local)": "(en local)",
 		"Aucun équipement Broker local n'a été trouvé, création en cours...": "Aucun équipement Broker local n'a été trouvé, création en cours...",
-		"Dépendances en cours d'installation... (%s%%)": "Dépendances en cours d'installation... (%s%%)",
-		"Dépendances installées.": "Dépendances installées.",
 		"Inconnu": "Inconnu",
 		"Installation des dépendances, voir log dédié (%s)": "Installation des dépendances, voir log dédié (%s)",
 		"L'équipement Broker #%s# a été créé.": "L'équipement Broker #%s# a été créé.",
@@ -223,10 +210,7 @@
 		"Mosquitto est installé par": "Mosquitto est installé par",
 		"Mosquitto n'a pas été installé par un plugin connu.": "Mosquitto n'a pas été installé par un plugin connu.",
 		"Mosquitto n'est pas installé en tant que service.": "Mosquitto n'est pas installé en tant que service.",
-		"Mosquitto n'est pas installé sur ce système !": "Mosquitto n'est pas installé sur ce système !",
-		"Relancez les dépendances, au moins une bibliothèque Python requise est manquante dans le venv :": "Relancez les dépendances, au moins une bibliothèque Python requise est manquante dans le venv :",
-		"Relancez les dépendances, le package PHP JsonPath est manquant": "Relancez les dépendances, le package PHP JsonPath est manquant",
-		"Relancez les dépendances, le venv Python n'a pas encore été créé": "Relancez les dépendances, le venv Python n'a pas encore été créé"
+		"Mosquitto n'est pas installé sur ce système !": "Mosquitto n'est pas installé sur ce système !"
 	},
 	"plugins/jMQTT/core/class/mqttApiRequest.class.php": {
 		"API: Exception": "API: Exception",
@@ -240,7 +224,7 @@
 		"Commande inconnue dans le message: '%2\\$s'": "Commande inconnue dans le message: '%2\\$s'",
 		"Démon": "Démon",
 		"Format JSON erroné: '%1\\$s'": "Format Json erroné: '%1\\$s'",
-		"Impossible d'autoriser la cmd '%2\\$s' avant la commande 'daemonUp': '%3\\$s'": "Impossible d'autoriser la cmd '%2\\$s' avant la commande 'daemonUp': '%3\\$s'",
+		"Impossible d'autoriser la cmd '%1\\$s' avant la commande 'daemonUp': '%2\\$s'": "Impossible d'autoriser la cmd '%1\\$s' avant la commande 'daemonUp': '%2\\$s'",
 		"Message refusé (démon invalide) : '%2\\$s'": "Message refusé (démon non valide) : '%2\\$s'",
 		"Paramètre cmd manquant dans le message: '%2\\$s'": "Paramètre cmd manquant dans le message: '%2\\$s'",
 		"Paramètre manquant pour la cmd '%2\\$s' : '%3\\$s'": "Paramètre manquant pour la cmd '%2\\$s' : '%3\\$s'"
@@ -401,67 +385,6 @@
 		"Unité": "Unité",
 		"Utiliser un template :": "Utiliser un template :",
 		"Valeur": "Valeur"
-	},
-	"plugins/jMQTT/desktop/modal/debug.php": {
-		"401 - Accès non autorisé": "401 - Accès non autorisé",
-		"Actions sur jMQTT": "Actions sur jMQTT",
-		"Afficher": "Afficher",
-		"Ajouter": "Ajouter",
-		"Ajouter un paramètre au cache": "Ajouter un paramètre au cache",
-		"Ajouter un paramètre de configuration": "Ajouter un paramètre de configuration",
-		"Ajouter un paramètre de configuration interne": "Ajouter un paramètre de configuration interne",
-		"Arrêter les heatbeat": "Arrêter les Heatbeats",
-		"Clé": "Clé",
-		"Clé :": "Clé :",
-		"Demander au démon un \"Thread Dump\"": "Demander au démon un \"Thread Dump\"",
-		"Démon(s) actifs": "Démon(s) actifs",
-		"Envoyer": "Envoyer",
-		"Envoyer les stats": "Envoyer les stats",
-		"Etat Général de Jeedom": "État Général de Jeedom",
-		"Etat Général de jMQTT": "Etat Général de jMQTT",
-		"Forcer la revérification des dépendances": "Forcer la revérification des dépendances",
-		"Kill All": "Kill All",
-		"Logs en VERBOSE": "Logs en VERBOSE",
-		"Masquer": "Masquer",
-		"Modifier le paramètre de configuration": "Modifier le paramètre de configuration",
-		"Modifier le paramètre de configuration interne": "Modifier le paramètre de configuration interne",
-		"Modifier le paramètre du cache": "Modifier le paramètre du cache",
-		"Nettoyage": "Nettoyage",
-		"Paramètre de cache ajouté.": "Paramètre de cache ajouté.",
-		"Paramètre de config ajouté.": "Paramètre de config ajouté.",
-		"Paramètre de config interne ajouté.": "Paramètre de config interne ajouté.",
-		"Paramètre de config interne modifié.": "Paramètre de config interne modifié.",
-		"Paramètre de config interne supprimé.": "Paramètre de config interne supprimé.",
-		"Paramètre de config modifié.": "Paramètre de config modifié.",
-		"Paramètre de config supprimé.": "Paramètre de config supprimé.",
-		"Paramètre du cache modifié.": "Paramètre du cache modifié.",
-		"Paramètre du cache supprimé.": "Paramètre du cache supprimé.",
-		"Port": "Port",
-		"Re-créer les listeners": "Re-créer les listeners",
-		"Réinstaller jMQTT": "Réinstaller jMQTT",
-		"Simuler un évènement envoyé au Démon par Jeedom (clé API envoyée en auto)": "Simuler un évènement envoyé au Démon par Jeedom (clé API envoyée en auto)",
-		"Simuler un évènement reçu du Démon par Jeedom (clé API envoyée en auto)": "Simuler un évènement reçu du Démon par Jeedom (clé API envoyée en auto)",
-		"Simuler une communication avec le Démon": "Simuler une communication avec le Démon",
-		"Supprimer déps PHP": "Supprimer déps PHP",
-		"Supprimer déps Python (venv)": "Supprimer déps Python (venv)",
-		"Supprimer le fichier PID": "Supprimer le fichier PID",
-		"Supprimer le paramètre de configuration": "Supprimer le paramètre de configuration",
-		"Supprimer le paramètre de configuration interne": "Supprimer le paramètre de configuration interne",
-		"Supprimer le paramètre du cache": "Supprimer le paramètre du cache",
-		"Supprimer les contenus dynamiques": "Supprimer les contenus dynamiques",
-		"Supprimer tous les listeners": "Supprimer tous les listeners",
-		"Valeur (encodée en Json)": "Valeur (encodée en Json)",
-		"Valeur (encodée en Json) :": "Valeur (encodée en Json) :",
-		"Valeurs de config des Brokers": "Valeurs de config des Brokers",
-		"Valeurs de config des Commandes Action": "Valeurs de config des Commandes Action",
-		"Valeurs de config des Commandes Info": "Valeurs de config des Commandes Info",
-		"Valeurs de config des Equipements": "Valeurs de config des Équipements",
-		"Valeurs de config du Démon": "Valeurs de config du Démon",
-		"Valeurs du cache des Brokers": "Valeurs du cache des Brokers",
-		"Valeurs du cache des Commandes Action": "Valeurs du cache des Commandes Action",
-		"Valeurs du cache des Commandes Info": "Valeurs du cache des Commandes Info",
-		"Valeurs du cache des Equipements": "Valeurs du cache des Équipements",
-		"Valeurs du cache du Démon": "Valeurs du cache du Démon"
 	},
 	"plugins/jMQTT/desktop/modal/health.php": {
 		"401 - Accès non autorisé": "401 - Accès non autorisé",
@@ -656,7 +579,7 @@
 		"Décteur de fumée": "Décteur de fumée",
 		"Dimmer": "Variateur",
 		"Doit être indiqué sous la forme : Secteur, 1xCR123A, 3xAA, ...": "Doit être indiqué sous la forme : Secteur, 1xCR123A, 3xAA...",
-		"Energie": "Énergie",
+		"Energie": "Energie",
 		"Fenêtre": "Fenêtre",
 		"Garage": "Garage",
 		"Humidité": "Humidité",
@@ -744,10 +667,8 @@
 		"URL de Callback du Démon": "URL de Callback du Démon"
 	},
 	"plugins/jMQTT/plugin_info/install.php": {
-		"Application du fichier de migration vers la version %d...": "Application du fichier de migration vers la version %s...",
-		"Exception rencontrée lors de la migration vers la version %1\\$d : %2\\$s": "Exception rencontrée lors de la migration vers la version %1\\$s : %2\\$s",
-		"Impossible de récupérer le numéro de version dans le fichier info.json, ceci ce devrait pas arriver !": "Impossible de récupérer le numéro de version dans le fichier info.json, ceci ce devrait pas arriver !",
-		"Migration vers la version %d réalisée avec succès": "Migration vers la version %s réalisée avec succès"
+		"Exception rencontrée lors de la migration vers la version %1\\$s : %2\\$s": "Exception rencontrée lors de la migration vers la version %1\\$s : %2\\$s",
+		"Impossible de récupérer le numéro de version dans le fichier info.json, ceci ce devrait pas arriver !": "Impossible de récupérer le numéro de version dans le fichier info.json, ceci ce devrait pas arriver !"
 	},
 	"plugins/jMQTT/resources/update/1.php": {
 		"Migration de la commande info:": "Migration de la commande info:",
@@ -767,7 +688,7 @@
 		"Templates nettoyés des informations du Broker": "Templates nettoyés des informations du Broker."
 	},
 	"plugins/jMQTT/resources/update/7.php": {
-		"Erreur lors de la lecture du Template '%s'": "Erreur lors de la lecture du template '%s'.",
+		"Erreur lors de la lecture du Template '%s'": "Erreur lors de la lecture du template '%s'",
 		"JsonPath séparé du Topic pour tous les commandes info jMQTT": "JsonPath séparé du topic pour tous les commandes info jMQTT",
 		"JsonPath séparé du Topic pour tous les Templates jMQTT": "JsonPath séparé du topic pour tous les templates jMQTT"
 	},
@@ -796,5 +717,10 @@
 	},
 	"plugins/jMQTT/resources/update/20.php": {
 		"Crons orphelins supprimés": "Crons orphelins supprimés"
+	},
+	"plugins/jMQTT/resources/update/25.1.0.php": {
+		"Commentaires des équipements correctement migrés": "Commentaires des équipements correctement migrés",
+		"Commentaires des templates correctement migrés": "Commentaires des templates correctement migrés",
+		"Erreur lors de la lecture du Template '%s'": "Erreur lors de la lecture du Template '%s'"
 	}
 }

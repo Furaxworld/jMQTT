@@ -59,7 +59,7 @@ function jMQTT_update($_direct=true) {
     // List all migration files
     $files = ls(__DIR__ . '/../resources/update/', '*.php', false, array('files'));
     $migrations = array();
-    foreach($files as $name) {
+    foreach ($files as $name) {
         // Use only matching files
         if (!preg_match_all("/^(\d+)(\.(\d+)(\.(\d+))?)?.php$/", $name, $m))
             continue;
@@ -77,55 +77,33 @@ function jMQTT_update($_direct=true) {
     uksort($migrations, 'version_compare');
 
     // Apply migration files in the right order
-    foreach($migrations as $ver => $name) {
+    foreach ($migrations as $ver => $name) {
         try {
-            $file = __DIR__ . '/../resources/update/' . $name . '.php';
+            $file = __DIR__ . '/../resources/update/' . $name;
             if (file_exists($file)) {
-                log::add(
-                    'jMQTT',
-                    'debug',
-                    sprintf(
-                        __("Application du fichier de migration vers la version %d...", __FILE__),
-                        $ver
-                    )
-                );
+                log::add('jMQTT', 'debug', "Applying migration file to version " . $ver . "...");
                 include $file;
-                log::add(
-                    'jMQTT',
-                    'debug',
-                    sprintf(
-                        __("Migration vers la version %d réalisée avec succès", __FILE__),
-                        $ver
-                    )
-                );
+                log::add('jMQTT', 'debug', "Migration to version " . $ver . " successful");
             }
         } catch (Throwable $e) {
-            log::add(
-                'jMQTT',
-                'error',
-                str_replace(
-                    "\n",
-                    ' <br/> ',
-                    sprintf(
-                        __("Exception rencontrée lors de la migration vers la version %1\$d : %2\$s", __FILE__).
-                        ",<br/>@Stack: %3\$s.",
-                        $ver,
-                        $e->getMessage(),
-                        $e->getTraceAsString()
-                    )
-                )
-            );
+            log::add('jMQTT', 'error', sprintf(
+                __("Exception rencontrée lors de la migration vers la version %1\$s : %2\$s", __FILE__)
+                . "\n@Stack: %3\$s",
+                $ver,
+                $e->getMessage(),
+                $e->getTraceAsString()
+            ));
         }
     }
 
     config::save('version', $pluginVer, 'jMQTT');
 
-    jMQTTDaemon::pluginStats($_direct ? 'update' : 'install');
+    jMQTTPlugin::stats($_direct ? 'update' : 'install');
 }
 
 function jMQTT_remove() {
     jMQTT::logger('debug', 'install.php: jMQTT_remove()');
-    jMQTTDaemon::pluginStats('uninstall');
+    jMQTTPlugin::stats('uninstall');
     @cache::delete('jMQTT::' . jMQTTConst::CACHE_DAEMON_UID);
 }
 

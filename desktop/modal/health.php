@@ -58,7 +58,7 @@ foreach ($eqBrokers as $eqB) { // List all Brokers on top
 <?php
 foreach ($eqBrokers as $eqB) { // For each Broker
     echo '<legend><i class="fas fa-table"></i> {{Équipement(s) connectés à}} <b>' . $eqB->getName() . '</b></legend>';
-    if (count($eqNonBrokers[$eqB->getId()]) > 0) {
+    if (!empty($eqNonBrokers[$eqB->getId()])) {
         echo '<table class="table table-condensed tablesorter" id="table_healthMQTT_'.$eqB->getId().'">';
 ?>
     <thead>

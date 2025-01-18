@@ -1,41 +1,50 @@
 #!/bin/bash
 ######################### INCLUSION LIB ##########################
-BASEDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-#wget https://raw.githubusercontent.com/NebzHB/dependance.lib/master/dependance.lib -O $BASEDIR/dependance.lib &>/dev/null
+BASE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# wget https://raw.githubusercontent.com/NebzHB/dependance.lib/master/dependance.lib -O ${BASE_DIR}/dependance.lib &>/dev/null
+# wget https://raw.githubusercontent.com/NebzHB/dependance.lib/master/i18n/en.json -O ${BASE_DIR}/dependance.en.json &>/dev/null
 PROGRESS_FILENAME=dependancy
-PLUGIN=$(basename "$(realpath $BASEDIR/..)")
+PLUGIN=$(basename "$(realpath ${BASE_DIR}/..)")
 LANG_DEP=en
-. ${BASEDIR}/dependance.lib
+# TIMED=1
+. ${BASE_DIR}/dependance.lib
+##################################################################
+# wget https://raw.githubusercontent.com/NebzHB/dependance.lib/master/pyenv.lib --no-cache -O ${BASE_DIR}/pyenv.lib &>/dev/null
+. ${BASE_DIR}/pyenv.lib
+TARGET_PYTHON_VERSION="3.11" # EOL=2027-10
+VENV_DIR=${BASE_DIR}/jmqttd/venv
 ##################################################################
 
 pre
 step 0 "Synchronize the package index"
 try sudo apt-get update
 
-step 10 "Purge dynamic contents"
-silent rm -rf $BASEDIR/JsonPath-PHP/composer.lock
-silent rm -rf $BASEDIR/JsonPath-PHP/vendor
-silent rm -rf $BASEDIR/jmqttd/venv
-silent rm -rf $BASEDIR/jmqttd/__pycache__
+step 5 "Purge dynamic contents"
+silent rm -rf ${BASE_DIR}/JsonPath-PHP/composer.lock
+silent rm -rf ${BASE_DIR}/JsonPath-PHP/vendor
+silent rm -rf ${BASE_DIR}/jmqttd/venv
+silent rm -rf ${BASE_DIR}/jmqttd/__pycache__
 
-step 20 "Install Composer"
-try wget 'https://getcomposer.org/installer' -O $BASEDIR/composer-setup.php
-try php $BASEDIR/composer-setup.php --install-dir=$BASEDIR/
-try rm -f $BASEDIR/composer-setup.php
+step 10 "Install Composer"
+try wget 'https://getcomposer.org/installer' -O ${BASE_DIR}/composer-setup.php
+try php ${BASE_DIR}/composer-setup.php --install-dir=${BASE_DIR}/
+try rm -f ${BASE_DIR}/composer-setup.php
 
-step 30 "Install JsonPath-PHP library"
-try sudo -u www-data php $BASEDIR/composer.phar update --working-dir=$BASEDIR/JsonPath-PHP
+step 13 "Install JsonPath-PHP library"
+try sudo -u www-data php ${BASE_DIR}/composer.phar update --working-dir=${BASE_DIR}/JsonPath-PHP
 
-step 40 "Remove Composer"
-silent rm $BASEDIR/composer.phar
+step 18 "Remove Composer"
+silent rm ${BASE_DIR}/composer.phar
 
-step 50 "Install python3 venv and pip debian packages"
-try sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3-venv python3-pip
-
-step 60 "Create a python3 Virtual Environment"
-try sudo -u www-data python3 -m venv $BASEDIR/jmqttd/venv
+autoSetupVenv
 
 step 70 "Install required python3 libraries in venv"
-try sudo -u www-data $BASEDIR/jmqttd/venv/bin/pip3 install --no-cache-dir -r $BASEDIR/python-requirements/requirements.txt
+try ${VENV_DIR}/bin/python3 -m pip install --upgrade -r ${BASE_DIR}/python-requirements/requirements.txt
+
+step 80 "Restoring folders and files rights"
+chown -Rh www-data:www-data ${VENV_DIR}
+
+step 85 "Summary of installed packages"
+${VENV_DIR}/bin/python3 -m pip freeze
 
 post
